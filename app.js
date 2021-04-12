@@ -54,6 +54,25 @@ app.get('/login', (req, res) => {
     res.render('login')
 })
 
+app.post('/login', (req, res) => {
+    username = req.body.username;
+    password = req.body.password;
+
+    User.findOne({
+        email: username
+    }, (err, foundUser) => {
+        if (err) {
+            res.send(err)
+        } else {
+            if (foundUser) {
+                if (foundUser.password === password) {
+                    res.render('secrets')
+                }
+            }
+        }
+    })
+})
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
